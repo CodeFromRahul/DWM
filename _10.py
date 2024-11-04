@@ -1,42 +1,25 @@
-def page_rank(links,beta=0.8,iteration=2):
-    N=len(links)
-    ranks={page:1/N for page in links}
+import numpy as np
 
-    # function for new link
-    def calculate_rank(page):
-        incoming_links=[source for source in links if page in links[source]]
-        rank_sum =sum(ranks[source]/len(links[source]) for source in incoming_links)
+n = int(input("enter no. of nodes: "))
+adjacency = []
+for _ in range(n):
+    row = list(map(int, input().split()))
+    adjacency.append(row)
+d = float(input("enter dumping: "))
+i = int(input("enter iterations: "))
 
-        return (1-beta)+beta*rank_sum
+matrix = np.array(adjacency)
 
-    print(f"Iteration 0,{ranks}")
+pagerank = np.ones(n) / n
+print(pagerank)
 
-    for i in range(1,iteration+1):
-        new_ranks={}
-    
-    for page in links:
-        new_ranks[page]= calculate_rank(page)
-
-    ranks=new_ranks
-
-    print(f"Iteration {i}:{ranks}")
-    
-    # final 
-    
-    print("\nFinal pagerank values:")
-    for page,rank in ranks.items():
-        print(f"page{page}:{rank}")
-
-    def get_user_input():
-        num_pages=int(input("Enter the number of pages :"))
-        links={}
-
-        for i in range(num_pages):
-            page=input("Enter page {i+1} name:")
-            outgoing=input(f"Enter the putgoin links from {page}(comma-separated):").split(',')
-            links[page]=[links.strip() for link in outgoing if links.strip()!='']
-            return links
-        
-    if _name_ =="_main_":
-        links =get_user_input()
-        page_rank(links)
+for x in range(i):
+    newpagerank = np.zeros(n)
+    for y in range(n):
+        links = np.where(matrix[:, y] > 0)[0]
+        rank = sum(pagerank[z] / np.sum(matrix[z]) for z in links if np.sum(matrix[z]) > 0)
+        newpagerank[y] = (1 - d) + d * rank
+        pagerank = newpagerank
+    pagerank = newpagerank
+    print(pagerank)
+print(pagerank)
